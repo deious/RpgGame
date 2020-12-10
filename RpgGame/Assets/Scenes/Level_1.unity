@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4909903464192160, guid: aac26e4372c4040afb6fb7240864c51e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 4909903464192160, guid: aac26e4372c4040afb6fb7240864c51e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4909903464192160, guid: aac26e4372c4040afb6fb7240864c51e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 57.9
+      value: 39.2
       objectReference: {fileID: 0}
     - target: {fileID: 4909903464192160, guid: aac26e4372c4040afb6fb7240864c51e, type: 3}
       propertyPath: m_LocalRotation.x
@@ -197,6 +197,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80530b450df9e894cb037d67e09e0058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MoveSpeed: 2
+  RunSpeed: 3.5
+  DirectionRotateSpeed: 100
+  BodyRotateSpeed: 2
+  VelocityChangeSpeed: 0.1
 --- !u!143 &228146260
 CharacterController:
   m_ObjectHideFlags: 0

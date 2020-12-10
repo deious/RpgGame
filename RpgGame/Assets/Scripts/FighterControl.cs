@@ -19,12 +19,33 @@ public class FighterControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        myCharacterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Move();
+    }
+
+    void Move()
+    {
+        Transform CameraTransform = Camera.main.transform;
+        Vector3 forward = CameraTransform.TransformDirection(Vector3.forward);
+        forward.y = 0.0f;
+        Vector3 right = new Vector3(forward.z, 0.0f, -forward.x);
+
+        float vetical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Horizontal");
+
+        Vector3 targetDirection = horizontal * right + vetical * forward;
+
+        MoveDirection = Vector3.RotateTowards(MoveDirection, targetDirection, DirectionRotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
+        MoveDirection = MoveDirection.normalized;
+
+        float speed = MoveSpeed;
+
+        Vector3 moveAmount = (MoveDirection * speed * Time.deltaTime);
+        collisionFlags = myCharacterController.Move(moveAmount);
     }
 }
