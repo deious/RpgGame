@@ -48,4 +48,13 @@ public class FighterControl : MonoBehaviour
         Vector3 moveAmount = (MoveDirection * speed * Time.deltaTime);
         collisionFlags = myCharacterController.Move(moveAmount);
     }
+
+    private void OnGUI()
+    {
+        if(myCharacterController != null && myCharacterController.velocity != Vector3.zero)
+        {
+            GUILayout.Label("current Velocity Vector : " + myCharacterController.velocity.ToString());
+            GUILayout.Label("current Velocity Magnitude : " + myCharacterController.velocity.magnitude.ToString());
+        }
+    }
 }

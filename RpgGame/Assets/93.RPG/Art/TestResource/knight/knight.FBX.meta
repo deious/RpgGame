@@ -341,30 +341,24 @@ ModelImporter:
     second: Particle View 01
   - first:
       43: 4300000
-    second: knight_body
-  - first:
-      43: 4300002
-    second: W_2hand
-  - first:
-      43: 4300004
     second: knight_head
   - first:
-      43: 4300006
+      43: 4300002
     second: knight_lower
   - first:
-      43: 4300008
+      43: 4300004
     second: knight_foot
   - first:
-      43: 4300010
+      43: 4300006
     second: knight_upper
   - first:
-      43: 4300012
+      43: 4300008
     second: knight_hand
   - first:
-      43: 4300014
+      43: 4300010
     second: knight_hair
   - first:
-      43: 4300016
+      43: 4300012
     second: knight_R_2hand
   - first:
       74: 7400000
@@ -393,7 +387,42 @@ ModelImporter:
   - first:
       137: 13700012
     second: knight_upper
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: knight_R_2hand
+    second: {fileID: 2100000, guid: a791126f3eed245e8890c24632cea61c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: knight_foot
+    second: {fileID: 2100000, guid: 5f47bd207917c4f91bf54480654832f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: knight_hair
+    second: {fileID: 2100000, guid: 2a96fa85ba29442a8b0591907990f545, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: knight_hand
+    second: {fileID: 2100000, guid: 605e79ea53caf4f2387a86c1a4830f75, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: knight_head
+    second: {fileID: 2100000, guid: 601a2eeb709f6442785a787420bd3402, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: knight_lower
+    second: {fileID: 2100000, guid: 5550d4776bc544d5fb910f92ee5f9370, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: knight_upper
+    second: {fileID: 2100000, guid: a28f8a897ce524d99abf2f0c1890130c, type: 2}
   materials:
     materialImportMode: 1
     materialName: 3
