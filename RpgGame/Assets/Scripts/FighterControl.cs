@@ -51,10 +51,28 @@ public class FighterControl : MonoBehaviour
 
     private void OnGUI()
     {
+        GUILayout.Label("현재 속도 : " + GetVelocitySpeed().ToString());
+
         if(myCharacterController != null && myCharacterController.velocity != Vector3.zero)
         {
             GUILayout.Label("current Velocity Vector : " + myCharacterController.velocity.ToString());
             GUILayout.Label("current Velocity Magnitude : " + myCharacterController.velocity.magnitude.ToString());
         }
+    }
+
+    float GetVelocitySpeed()
+    {
+        if(myCharacterController.velocity == Vector3.zero)
+        {
+            CurrentVelocity = Vector3.zero;
+        }
+        else
+        {
+            Vector3 goalVelocity = myCharacterController.velocity;
+            goalVelocity.y = 0.0f;
+            CurrentVelocity = Vector3.Lerp(CurrentVelocity, goalVelocity, VelocityChangeSpeed * Time.fixedDeltaTime);
+        }
+
+        return CurrentVelocity.magnitude;
     }
 }
