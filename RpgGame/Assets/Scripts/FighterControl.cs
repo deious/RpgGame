@@ -26,6 +26,8 @@ public class FighterControl : MonoBehaviour
     void Update()
     {
         Move();
+
+        BodyDirectionChange();
     }
 
     void Move()
@@ -74,5 +76,15 @@ public class FighterControl : MonoBehaviour
         }
 
         return CurrentVelocity.magnitude;
+    }
+
+    void BodyDirectionChange()
+    {
+        if(GetVelocitySpeed() > 0.0f)
+        {
+            Vector3 newFoward = myCharacterController.velocity;
+            newFoward.y = 0.0f;
+            transform.forward = Vector3.Lerp(transform.forward, newFoward, BodyRotateSpeed * Time.deltaTime);
+        }
     }
 }
