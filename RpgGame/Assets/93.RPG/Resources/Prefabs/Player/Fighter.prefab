@@ -305,6 +305,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4909903464192160}
   - component: {fileID: 111355812039746302}
+  - component: {fileID: 143637307033970912}
+  - component: {fileID: 114254670948193366}
   m_Layer: 0
   m_Name: Fighter
   m_TagString: Untagged
@@ -1600,7 +1602,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1314782023668734}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 16.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4552910233882854}
@@ -1795,6 +1797,30 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114254670948193366
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1314782023668734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e521fe42790805d4ab67b56d95c0f6a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 2
+  RunSpeed: 3.5
+  DirectionRotateSpeed: 100
+  BodyRotateSpeed: 2
+  VelocityChangeSpeed: 0.1
+  IdleAnimClip: {fileID: 7400000, guid: 45d3af78ca2ca3c48b9bed2710225584, type: 3}
+  WalkAnimClip: {fileID: 7400000, guid: 7a577a72f348f2642b46c13f3681f0bd, type: 3}
+  RunAnimClip: {fileID: 7400000, guid: c83e1770da24ae24199c48994833b102, type: 3}
+  Attack1AnimClip: {fileID: 7400000, guid: f2ed6852d0b37394d844649f19d2bd14, type: 3}
+  Attack2AnimClip: {fileID: 7400000, guid: 4b2e5452f6656e74f93ebfb8cbaa5f6a, type: 3}
+  Attack3AnimClip: {fileID: 7400000, guid: 9b4a0dc5fc18b5a468c1118d3a38b0b9, type: 3}
+  Attack4AnimClip: {fileID: 7400000, guid: 4548d7bceba281d4d90297c6db3bea8b, type: 3}
+  myState: 0
 --- !u!137 &137355094628166442
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1870,3 +1896,20 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.025585175, y: 0.030488446, z: 0.0021967888}
     m_Extent: {x: 0.8132258, y: 0.23564641, z: 0.61357105}
   m_DirtyAABB: 0
+--- !u!143 &143637307033970912
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1314782023668734}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}

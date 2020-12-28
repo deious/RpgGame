@@ -16,10 +16,37 @@ public class FighterControl : MonoBehaviour
     private CharacterController myCharacterController = null;
     private CollisionFlags collisionFlags = CollisionFlags.None;
 
+    [Header("애니메이션 관련 속성")]
+    public AnimationClip IdleAnimClip = null;
+    public AnimationClip WalkAnimClip = null;
+    public AnimationClip RunAnimClip = null;
+    public AnimationClip Attack1AnimClip = null;
+    public AnimationClip Attack2AnimClip = null;
+    public AnimationClip Attack3AnimClip = null;
+    public AnimationClip Attack4AnimClip = null;
+    private Animation myAnimation = null;
+
+    public enum FighterState { None, Idle, Walk, Run, Attack, Skill }
+    [Header("캐릭터 상태")]
+    public FighterState myState = FighterState.None;
+
     // Start is called before the first frame update
     void Start()
     {
         myCharacterController = GetComponent<CharacterController>();
+
+        myAnimation = GetComponent<Animation>();
+        myAnimation.playAutomatically = false;
+        myAnimation.Stop();
+
+        myState = FighterState.Idle;
+        myAnimation[IdleAnimClip.name].wrapMode = WrapMode.Loop;
+        myAnimation[WalkAnimClip.name].wrapMode = WrapMode.Loop;
+        myAnimation[RunAnimClip.name].wrapMode = WrapMode.Loop;
+        myAnimation[Attack1AnimClip.name].wrapMode = WrapMode.Once;
+        myAnimation[Attack2AnimClip.name].wrapMode = WrapMode.Once;
+        myAnimation[Attack3AnimClip.name].wrapMode = WrapMode.Once;
+        myAnimation[Attack4AnimClip.name].wrapMode = WrapMode.Once;
     }
 
     // Update is called once per frame
@@ -28,6 +55,10 @@ public class FighterControl : MonoBehaviour
         Move();
 
         BodyDirectionChange();
+
+        AnimationControl();
+
+        CheckState();
     }
 
     void Move()
@@ -46,6 +77,7 @@ public class FighterControl : MonoBehaviour
         MoveDirection = MoveDirection.normalized;
 
         float speed = MoveSpeed;
+        if (myState == FighterState.Run) speed = RunSpeed;
 
         Vector3 moveAmount = (MoveDirection * speed * Time.deltaTime);
         collisionFlags = myCharacterController.Move(moveAmount);
@@ -85,6 +117,55 @@ public class FighterControl : MonoBehaviour
             Vector3 newFoward = myCharacterController.velocity;
             newFoward.y = 0.0f;
             transform.forward = Vector3.Lerp(transform.forward, newFoward, BodyRotateSpeed * Time.deltaTime);
+        }
+    }
+
+    void AnimationPlay(AnimationClip clip)
+    {
+        myAnimation.clip = clip;
+        myAnimation.CrossFade(clip.name);
+    }
+
+    void AnimationControl()
+    {
+        switch(myState)
+        {
+            case FighterState.Idle:
+                AnimationPlay(IdleAnimClip);
+                break;
+            case FighterState.Walk:
+                AnimationPlay(WalkAnimClip);
+                break;
+            case FighterState.Run:
+                AnimationPlay(RunAnimClip);
+                break;
+            case FighterState.Attack:
+                break;
+            case FighterState.Skill:
+                break;
+        }
+    }
+
+    void CheckState()
+    {
+        float currentSpeed = GetVelocitySpeed();
+        switch(myState)
+        {
+            case FighterState.Idle:
+                if (currentSpeed > 0.0f) myState = FighterState.Walk;
+                break;
+            case FighterState.Walk:
+                if (currentSpeed > 0.5f) myState = FighterState.Run;
+                else if (currentSpeed < 0.01f) myState = FighterState.Idle;
+                break;
+            case FighterState.Run:
+                if (currentSpeed < 0.5f) myState = FighterState.Walk;
+                else if (currentSpeed < 0.01f) myState = FighterState.Idle;
+                break;
+            case FighterState.Attack:
+                break;
+            case FighterState.Skill:
+                break;
         }
     }
 }
