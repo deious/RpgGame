@@ -63,15 +63,15 @@ public class FighterControl : MonoBehaviour
 
     void Move()
     {
-        Transform CameraTransform = Camera.main.transform;
-        Vector3 forward = CameraTransform.TransformDirection(Vector3.forward);
+        Transform CameraTransform = Camera.main.transform;                              // 메인카메라 게임오브젝트의 트랜스폼 컴포넌트
+        Vector3 forward = CameraTransform.TransformDirection(Vector3.forward);          // 카메라가 바라보는 방향이 월드상에서는 어떤 방향인지 얻어옴
         forward.y = 0.0f;
         Vector3 right = new Vector3(forward.z, 0.0f, -forward.x);
 
         float vetical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
 
-        Vector3 targetDirection = horizontal * right + vetical * forward;
+        Vector3 targetDirection = horizontal * right + vetical * forward;               // 이동하고자 하는 방향
 
         MoveDirection = Vector3.RotateTowards(MoveDirection, targetDirection, DirectionRotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
         MoveDirection = MoveDirection.normalized;
@@ -79,8 +79,8 @@ public class FighterControl : MonoBehaviour
         float speed = MoveSpeed;
         if (myState == FighterState.Run) speed = RunSpeed;
 
-        Vector3 moveAmount = (MoveDirection * speed * Time.deltaTime);
-        collisionFlags = myCharacterController.Move(moveAmount);
+        Vector3 moveAmount = (MoveDirection * speed * Time.deltaTime);                  // 이번 프레임에 움직일 양
+        collisionFlags = myCharacterController.Move(moveAmount);                        // 실제 이동
     }
 
     private void OnGUI()
