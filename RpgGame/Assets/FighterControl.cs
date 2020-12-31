@@ -30,6 +30,11 @@ public class FighterControl : MonoBehaviour
     [Header("캐릭터 상태")]
     public FighterState myState = FighterState.None;
 
+    public enum FighterAttackState { Attack1, Attack2, Attack3, Attack4 }
+    public FighterAttackState AttackState = FighterAttackState.Attack1;
+
+    public bool NextAttack = false;             // 다음 공격 활성화 여부를 확인하는 플래그
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +52,11 @@ public class FighterControl : MonoBehaviour
         myAnimation[Attack2AnimClip.name].wrapMode = WrapMode.Once;
         myAnimation[Attack3AnimClip.name].wrapMode = WrapMode.Once;
         myAnimation[Attack4AnimClip.name].wrapMode = WrapMode.Once;
+
+        AddAnimationEvent(Attack1AnimClip, "OnAttackAnimFinished");
+        AddAnimationEvent(Attack2AnimClip, "OnAttackAnimFinished");
+        AddAnimationEvent(Attack3AnimClip, "OnAttackAnimFinished");
+        AddAnimationEvent(Attack4AnimClip, "OnAttackAnimFinished");
     }
 
     // Update is called once per frame
@@ -59,6 +69,8 @@ public class FighterControl : MonoBehaviour
         AnimationControl();
 
         CheckState();
+
+        InputControl();
     }
 
     void Move()
@@ -140,6 +152,7 @@ public class FighterControl : MonoBehaviour
                 AnimationPlay(RunAnimClip);
                 break;
             case FighterState.Attack:
+                AttackAnimationControl();
                 break;
             case FighterState.Skill:
                 break;
@@ -149,6 +162,7 @@ public class FighterControl : MonoBehaviour
     void CheckState()
     {
         float currentSpeed = GetVelocitySpeed();
+
         switch(myState)
         {
             case FighterState.Idle:
@@ -165,6 +179,92 @@ public class FighterControl : MonoBehaviour
             case FighterState.Attack:
                 break;
             case FighterState.Skill:
+                break;
+        }
+    }
+
+    void InputControl()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            if(myState != FighterState.Attack)
+            {
+                myState = FighterState.Attack;
+                AttackState = FighterAttackState.Attack1;
+            }
+            else
+            {
+                switch(AttackState)
+                {
+                    case FighterAttackState.Attack1:
+                        if (myAnimation[Attack1AnimClip.name].normalizedTime > 0.1f) NextAttack = true;
+                        break;
+                    case FighterAttackState.Attack2:
+                        if (myAnimation[Attack2AnimClip.name].normalizedTime > 0.1f) NextAttack = true;
+                        break;
+                    case FighterAttackState.Attack3:
+                        if (myAnimation[Attack3AnimClip.name].normalizedTime > 0.1f) NextAttack = true;
+                        break;
+                    case FighterAttackState.Attack4:
+                        if (myAnimation[Attack4AnimClip.name].normalizedTime > 0.1f) NextAttack = true;
+                        break;
+                }
+            }
+        }
+    }
+
+    void OnAttackAnimFinished()
+    {
+        if(NextAttack)
+        {
+            NextAttack = false;
+
+            switch(AttackState)
+            {
+                case FighterAttackState.Attack1:
+                    AttackState = FighterAttackState.Attack2;
+                    break;
+                case FighterAttackState.Attack2:
+                    AttackState = FighterAttackState.Attack3;
+                    break;
+                case FighterAttackState.Attack3:
+                    AttackState = FighterAttackState.Attack4;
+                    break;
+                case FighterAttackState.Attack4:
+                    AttackState = FighterAttackState.Attack1;
+                    break;
+            }
+        }
+        else
+        {
+            myState = FighterState.Idle;
+            AttackState = FighterAttackState.Attack1;
+        }
+    }
+
+    void AddAnimationEvent(AnimationClip clip, string FuncName)
+    {
+        AnimationEvent newEvent = new AnimationEvent();
+        newEvent.functionName = FuncName;
+        newEvent.time = clip.length - 0.1f;
+        clip.AddEvent(newEvent);
+    }
+
+    void AttackAnimationControl()
+    {
+        switch(AttackState)
+        {
+            case FighterAttackState.Attack1:
+                AnimationPlay(Attack1AnimClip);
+                break;
+            case FighterAttackState.Attack2:
+                AnimationPlay(Attack2AnimClip);
+                break;
+            case FighterAttackState.Attack3:
+                AnimationPlay(Attack3AnimClip);
+                break;
+            case FighterAttackState.Attack4:
+                AnimationPlay(Attack4AnimClip);
                 break;
         }
     }
