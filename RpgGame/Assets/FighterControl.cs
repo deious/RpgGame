@@ -15,6 +15,8 @@ public class FighterControl : MonoBehaviour
     private Vector3 MoveDirection = Vector3.zero;
     private CharacterController myCharacterController = null;
     private CollisionFlags collisionFlags = CollisionFlags.None;
+    private float gravity = 9.8f;
+    private float verticalSpeed = 0.0f;
 
     [Header("애니메이션 관련 속성")]
     public AnimationClip IdleAnimClip = null;
@@ -71,6 +73,8 @@ public class FighterControl : MonoBehaviour
         CheckState();
 
         InputControl();
+
+        ApplyGravity();
     }
 
     void Move()
@@ -91,12 +95,16 @@ public class FighterControl : MonoBehaviour
         float speed = MoveSpeed;
         if (myState == FighterState.Run) speed = RunSpeed;
 
-        Vector3 moveAmount = (MoveDirection * speed * Time.deltaTime);                  // 이번 프레임에 움직일 양
+        Vector3 gravityVector = new Vector3(0.0f, verticalSpeed, 0.0f);
+
+        Vector3 moveAmount = (MoveDirection * speed * Time.deltaTime) + gravityVector;                  // 이번 프레임에 움직일 양
         collisionFlags = myCharacterController.Move(moveAmount);                        // 실제 이동
     }
 
     private void OnGUI()
     {
+
+        GUILayout.Label("충돌 :" + collisionFlags.ToString());
         GUILayout.Label("현재 속도 : " + GetVelocitySpeed().ToString());
 
         if(myCharacterController != null && myCharacterController.velocity != Vector3.zero)
@@ -267,5 +275,11 @@ public class FighterControl : MonoBehaviour
                 AnimationPlay(Attack4AnimClip);
                 break;
         }
+    }
+
+    void ApplyGravity()
+    {
+        if ((collisionFlags & CollisionFlags.CollidedBelow) != 0) verticalSpeed = 0.0f;
+        else verticalSpeed -= gravity * Time.deltaTime;
     }
 }
