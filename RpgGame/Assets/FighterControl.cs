@@ -15,8 +15,9 @@ public class FighterControl : MonoBehaviour
     private Vector3 MoveDirection = Vector3.zero;
     private CharacterController myCharacterController = null;
     private CollisionFlags collisionFlags = CollisionFlags.None;
-    private float gravity = 9.8f;
-    private float verticalSpeed = 0.0f;
+    private float gravity = 9.8f;           // 중력값
+    private float verticalSpeed = 0.0f;     // 수직 속도
+    private bool CannotMove = false;        // 이동 불가 플래그
 
     [Header("애니메이션 관련 속성")]
     public AnimationClip IdleAnimClip = null;
@@ -79,6 +80,8 @@ public class FighterControl : MonoBehaviour
 
     void Move()
     {
+        if (CannotMove) return;
+
         Transform CameraTransform = Camera.main.transform;                              // 메인카메라 게임오브젝트의 트랜스폼 컴포넌트
         Vector3 forward = CameraTransform.TransformDirection(Vector3.forward);          // 카메라가 바라보는 방향이 월드상에서는 어떤 방향인지 얻어옴
         forward.y = 0.0f;
@@ -185,8 +188,10 @@ public class FighterControl : MonoBehaviour
                 else if (currentSpeed < 0.01f) myState = FighterState.Idle;
                 break;
             case FighterState.Attack:
+                CannotMove = true;
                 break;
             case FighterState.Skill:
+                CannotMove = true;
                 break;
         }
     }
@@ -245,6 +250,7 @@ public class FighterControl : MonoBehaviour
         }
         else
         {
+            CannotMove = false;
             myState = FighterState.Idle;
             AttackState = FighterAttackState.Attack1;
         }
